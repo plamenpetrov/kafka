@@ -31,3 +31,15 @@ services:
       - ./kafka-producer/docker/app/nginx/logging.conf:/etc/nginx/conf.d/logging.conf
     ports:
       - 80:80
+
+  swagger-producer:
+    image: swaggerapi/swagger-ui
+    container_name: swagger-producer
+    env_file:
+      - kafka-producer/.env
+    depends_on:
+      - kafka-producer
+    volumes:
+      - ./kafka-producer/documentation/api-docs:/api-docs
+    ports:
+      - 8300:8080

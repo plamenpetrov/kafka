@@ -1,0 +1,75 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "Demo API that produces a JSON message within a Kafka topic.",
+    "title": "kafka-producer",
+    "contact": {
+      "email": "plamen.milchev.petrov@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Demo Producer",
+      "description": "Produce a JSON message within a Kafka topic."
+    }
+  ],
+  "paths": {
+    "/v1/produce": {
+      "post": {
+        "tags": [
+          "Demo Producer"
+        ],
+        "operationId": "produceJson",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/jsonInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204":
+          {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/jsonProduced"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "jsonProduced": {
+        "type": "object"
+      },
+      "jsonInput": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "plamen.petrov@gmail.com"
+          },
+          "name": {
+            "type": "string",
+            "example": "Plamen Petrov"
+          }
+        }
+      }
+    }
+  }
+}

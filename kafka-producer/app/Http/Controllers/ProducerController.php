@@ -3,17 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Producer;
+use App\Requests\ProducerRequest;
+use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProducerController extends Controller
 {
 
-    public function produceEvent(Producer $producer)
+    /**
+     * @param Producer $producer
+     *
+     * @return JsonResponse
+     */
+    public function produceEvent(ProducerRequest $request, Producer $producer): JsonResponse
     {
         $producer->produce(\GuzzleHttp\json_encode([
-            'name' => 'Kafka producer',
-            'email' => 'kafka@producer.com'
+            'name' => $request->getEmail(),
+            'email' => $request->getName()
         ]));
 
-        return true;
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);;
     }
 }
