@@ -9,9 +9,11 @@ After all containers are up you have to run composer install command in kafka-pr
 
 ```docker exec -it kafka-producer bash```
 ```composer install```
+```php artisan key:generate```
 
 Copy the .env.example file ( cp .env.example .env ) in kafka-zookeeper and kafka-producer folders.
 
-To produce a message access `http://localhost` in your browser. This endpoint will produce new static message in kafka topic com.kafka.demo.
+To produce a message you can use the Swagger UI accessible at `http://localhost:9000` in your browser and start using the Demo Producer endpoint.
+This endpoint will produce new message in kafka topic com.kafka.demo.
 
 To visualise details about kafka broker, topics, messages, partitions etc. you can use a web based UI accessed at `http://localhost:9091` in your browser.
