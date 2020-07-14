@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  kafka-consumer:
+    container_name: kafka-consumer
+    image: kafka-consumer:latest
+    build:
+      args:
+        USER: 'php-app'
+        UID: '1000'
+        XDEBUG_REMOTE_HOST: 'host.docker.internal'
+        XDEBUG_REMOTE_PORT: '9000'
+        XDEBUG_IDE_KEY: 'PHPSTORM'
+      context: kafka-consumer/
+      target: development
+      dockerfile: Dockerfile
+    volumes:
+      -  ./kafka-consumer:/var/www/html

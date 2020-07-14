@@ -1,0 +1,33 @@
+version: '3.7'
+
+services:
+  kafka-producer:
+    container_name: kafka-producer
+    image: kafka-producer:latest
+    env_file:
+      - kafka-producer/.env
+    build:
+      args:
+        USER: 'php-app'
+        UID: '1000'
+        XDEBUG_REMOTE_HOST: 'host.docker.internal'
+        XDEBUG_REMOTE_PORT: '9000'
+        XDEBUG_IDE_KEY: 'PHPSTORM'
+      context: kafka-producer/
+      target: development
+      dockerfile: Dockerfile
+    volumes:
+      -  ./kafka-producer:/var/www/html
+
+  nginx-server:
+    image: nginx:stable-alpine
+    container_name: nginx-server
+    depends_on:
+      - kafka-producer
+    volumes:
+      - ./kafka-producer:/var/www/html
+      - ./kafka-producer/var/log/nginx:/var/log/nginx
+      - ./kafka-producer/docker/app/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./kafka-producer/docker/app/nginx/logging.conf:/etc/nginx/conf.d/logging.conf
+    ports:
+      - 80:80
